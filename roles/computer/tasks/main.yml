@@ -1,0 +1,80 @@
+---
+- name: Install NTP(chrony) in CentOS
+  tags: db, centos, ntp, chrony
+  yum:
+    name: chrony
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Start NTP(chrony)
+  tags: db, ntp, chrony
+  service:
+    name: chronyd
+    state: restarted
+    enabled: true
+
+- name: Install OpenStack packages in CentOS
+  tags: db, centos, openstack
+  pip:
+    name: python-openstackclient
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Install SQL Database (mariadb) in CentOS
+  tags: db, centos, mariadb
+  yum:
+    name: mariadb-server
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Start mariaDB
+  tags: db, mariadb
+  service:
+    name: mariadb
+    state: restarted
+    enabled: true
+
+- name: Install RabbitMQ to yum repository (CentOS)
+  yum_repository:
+    name: rabbitmq-e19-source
+    description: RabbitMQ Repository
+    baseurl: https://yum1.rabbitmq.com/rabbitmq/el/9/SRPMS
+    gpgcheck: yes
+    gpgkey: https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key
+    enabled: yes
+  when: ansible_distribution == "CentOS"
+
+- name: Start RabbitMQ
+  tags: db, rabbitmq
+  service:
+    name: rabbitmq-server
+    state: restarted
+    enabled: true
+
+- name: Install Memcached in CentOS
+  tags: db, centos, memcached
+  yum:
+    name: memcached
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Start Memcached
+  tags: db, memcached
+  service:
+    name: memcached
+    state: restarted
+    enabled: true
+
+- name: Install Etcd (CentOS)
+  tags: db, centos, etcd
+  yum:
+    name: etcd-server
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Start Etcd
+  tags: db, centos, etcd
+  service:
+    name: etcd
+    state: restarted
+    enabled: true

@@ -1,0 +1,77 @@
+---
+- name: Install NTP(chrony) in ubuntu
+  tags: web, ubuntu, ntp, chrony
+  apt:
+    name: chrony
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Start NTP(chrony)
+  tags: web, ntp, chrony
+  service:
+    name: chronyd
+    state: restarted
+    enabled: true
+
+- name: Install OpenStack packages in ubuntu
+  tags: web, ubuntu, openstack
+  apt:
+    name: python3-openstackclient
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install SQL Database (mariadb) in ubuntu
+  tags: web, ubuntu, mariadb
+  apt:
+    name: mariadb-server
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Start MariaDB
+  tags: web, mariadb
+  service:
+    name: mariadb
+    state: restarted
+    enabled: true
+
+- name: Install Message Queue (RabbitMQ) in ubuntu
+  tags: web, ubuntu, rabbitmq
+  apt:
+    name: rabbitmq-server
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Start RabbitMQ
+  tags: web, rabbitmq
+  service:
+    name: rabbitmq-server
+    state: restarted
+    enabled: true
+
+- name: Install Memcached (Ubuntu)
+  tags: web, ubuntu, memcached
+  apt:
+    name: memcached
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Start Memcached
+  tags: web, memcached
+  service:
+    name: memcached
+    state: restarted
+    enabled: true
+
+- name: Install Etcd in ubuntu
+  tags: web, ubuntu, etcd
+  apt:
+    name: etcd-server
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Start Etcd
+  tags: web, etcd
+  service:
+    name: etcd
+    state: restarted
+    enabled: true
